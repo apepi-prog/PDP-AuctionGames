@@ -1,0 +1,9 @@
+type,money,bet,cards,result,min-bet,max-bet,dealer-cards
+humain,200,50,A34,-50,5,100,6537
+humain,200,10,569,20,5,100,674
+humain,200,10,45T,10,5,100,99
+ia-basique,200,10,T9,10,5,100,98
+humain,200,50,T8,-50,5,100,6537
+humain,200,10,92T,20,5,100,674
+ia-hilo,200,10,63T,10,5,100,99
+ia-basique,200,10,A8,10,5,100,98

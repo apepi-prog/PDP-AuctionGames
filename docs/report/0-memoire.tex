@@ -1,0 +1,153 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[pdftex]{hyperref} 
+\usepackage[a4paper]{geometry}
+\usepackage{pdflscape}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{indentfirst}
+\usepackage[cache=false]{minted}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{tikz-uml}
+\usepackage{csvsimple}
+
+\DeclareUnicodeCharacter{9829}{\ensuremath{\heartsuit}}
+\DeclareUnicodeCharacter{9830}{\ensuremath{\diamond}}
+
+\usetikzlibrary{decorations.pathreplacing}
+
+\graphicspath{./}
+
+% \paragraph as \subsubsubsection
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% \code{} command
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+}
+
+\setminted[md]{
+    numbersep=5pt,
+    autogobble,
+    frame=lines,
+    framesep=2mm,
+    fontsize=\footnotesize,
+    style=emacs
+}
+
+\begin{document}
+
+\title{\textbf{Projet de programmation \\ \bigskip Jeux d'enchères}}
+\date{Janvier 2022 - Avril 2022}
+\author{Nahaki Barry \and Mathias Crema \and Maxime Dumonteil \and Nicolas Hubner \and Maxime Meyrat \and Alex Pepi}
+
+\maketitle
+\newpage
+
+\renewcommand{\contentsname}{Sommaire}
+\tableofcontents
+\cleardoublepage
+ 
+\newpage
+ 
+\renewcommand{\listfigurename}{Liste des figures}
+\listoffigures
+ 
+\newpage
+
+\input{1-contexte}
+
+\newpage
+
+\section{Description des besoins}
+\input{2-besoins}
+
+\newpage
+
+\section{Architecture du logiciel}
+\input{3-architecture}
+
+\newpage
+
+\section{Analyse du logiciel et tests}
+\input{4-tests}
+
+\section{Conclusion}
+Finalement, nous avons pu réaliser le moteur de jeu, le lanceur de jeu ainsi que plusieurs stratégies d'intelligence artificielle afin d'avoir une application regroupant les éléments suffisant pour fonctionner. Néanmoins, il reste des besoins non-implémentés et des axes d'améliorations possibles. En premier lieu, le lanceur de jeu pourrait être bonifié en lisant les paramètres depuis un fichier pour rendre son utilisation plus simple. Dans le même objectif de faciliter l'utilisation, une interface graphique pourrait représenter une extension intéressante. En outre, le point le plus important à compléter reste le développement de l'intelligence artificielle qui pourrait donner de meilleurs résultats en perfectionnant ses stratégies. Il est aussi envisageable de faire une amélioration de l'IA deep-learning qui se baserais sur l'apprentissage par renforcement profond. Dans cette optique d'amélioration, les comportements de l'intelligence artificielle pourraient également être optimisés par l'implémentons de l'affichage des statistiques d'un ensemble de partie.
+
+
+\section{Annexes}
+
+\subsection{Glossaire}
+
+\begin{itemize}
+    \item Action : Une action réalisable par un joueur durant son tour (piocher une carte, s'arrêter, abandonner, doubler sa mise).
+    \item IA : Une intelligence artificielle, un ensemble d'algorithme imitant la réflexion humaine.
+    \item Joueur : Une entité abstraite qui va jouer au jeu. Il est important de noter que l'utilisateur n'est pas forcément le joueur et inversement, bien qu'il puisse l'être.
+    \item Joueur Humain : Un joueur qui aura comme action celle que l'utilisateur décide.
+    \item Joueur IA : Un joueur qui aura comme action celle qu'une IA décide.
+    \item Lanceur de moteur de jeu : Une entité qui crée le moteur de jeu.
+    \item Logiciel : Le programme qui permettra de jouer au Blackjack. Il est composé d'un lanceur de moteur de jeu, d'un moteur et de plusieurs implémentations de joueurs.
+    \item Moteur : Une entité qui exécute une partie de jeu du Blackjack
+    \item Partie : Une partie de Blackjack, composée de la distribution des cartes initiales, d'un tour de jeu de chaque joueur et du décompte des scores.
+    \item Tour : Un tour de jeu d'un joueur, composé de plusieurs actions possibles.
+    \item Utilisateur : La personne qui va exécuter le logiciel
+\end{itemize}
+
+\subsection{Format du fichier de paramètres}
+\label{sec:format}
+
+\begin{minted}
+{json}
+{
+  "joueurs": [
+    {
+      "type": "ia",
+      "strategie": "basique",
+      "argent" : 450
+    },
+    {
+      "type": "ia",
+      "strategie": "hi-lo",
+      "argent" : 300
+    },
+    {
+      "type": "humain",
+      "argent" : 400
+    }
+  ],
+  "parties": 3,
+  "mise": {
+    "min": 10,
+    "max": 1000
+  },
+  "paquets": 3,
+  "rapide": false
+}
+\end{minted}
+
+\subsection{Diagramme de classes complet}
+
+\label{subsec:class-diagram}
+
+\includepdf[pages=1, fitpaper]{3-architecture/class_diagram.pdf}
+
+\bibliographystyle{unsrt}
+\bibliography{biblio}
+
+\bigskip\bigskip
+\centerline{\ensuremath\heartsuit}
+\end{document}

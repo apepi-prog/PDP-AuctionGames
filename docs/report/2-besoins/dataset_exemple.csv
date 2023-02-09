@@ -1,0 +1,10 @@
+type,money,bet,cards,result,min-bet,max-bet,dealer-cards
+ai-basique,100,10,KT,10,10,10,66AT
+ia-hilo,80,10,8K,0,10,10,288
+ai-basique,110,10,J9Q,-10,10,10,53Q
+ia-hilo,90,10,K3,-10,10,10,TJ
+ia-hilo,80,10,Q8,-10,10,10,63K
+ai-basique,110,10,K99,-10,10,10,8353
+ia-hilo-nocount,110,10,8Q,-10,10,10,974
+ia-hilo-nocount,100,10,JK,0,10,10,QJ
+ai-basique,105.0,10,23,10,10,10,78J

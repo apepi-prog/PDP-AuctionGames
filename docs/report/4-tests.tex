@@ -1,0 +1,538 @@
+\subsection{Analyse des performances du logiciel}
+L'état actuel des stratégies nous permet de déduire des résultats que nous conservons dans un ensemble de données utilisé par le réseau de neurones pour s'entraîner. À partir de ces données, nous avons pu déduire une moyenne de réussite pour chaque stratégie (sauf Deep Learning qui a déjà été présenté précédemment): environ 40\% pour la stratégie "Basique", 38\% pour la stratégie "Hi-Lo" et enfin 37\% pour "Hi-Lo No Count". Nous considérons comme réussite uniquement les cas où le joueur intelligence artificielle gagne la partie. Cependant, si nous considérons également les égalités comme cas de victoire, toutes les moyennes de réussite augmentent environ de 7\%. Ces chiffres nous permettent de nous rendre compte que des améliorations sont encore possibles. De plus, nous pouvons aussi optimiser ces résultats en modifiant les paramètres d'entrées des algorithmes de décision des stratégies. Dans la dernière version de l'application, les paramètres important de la stratégie "Basique" sont le seuil bas qui est à 0.08 et le seuil haut qui vaut 0.5. Ces valeurs ont été choisi empiriquement à la suite de plusieurs tests manuels et d'observations sur les probabilités calculées.
+
+\subsection{Présentation du développement des tests}
+Dans le but de vérifier le bon fonctionnement de notre logiciel nous avons effectué plusieurs tests à différentes échelles de l'application. Nous avons utilisé des tests unitaires pour la vérification des résultats des méthodes de classe utilisées par le moteur de jeu et les différents types de joueurs, en fonction des entrées des méthodes. Le déroulement de la partie, comprenant la bonne application des règles du Blackjack et le bon comportement de l'intelligence artificielle, ont été vérifiés majoritairement par de multiples tests "manuels" qui consistait à lancer le logiciel sur une partie type, en utilisant des joueurs "humains" pour en modifier les scénarios à un instant donné du jeu. Ce choix de tests "manuels" a été amené par la difficulté de pré-programmer efficacement l'ensemble des parties décrivant tous les scénarios possibles de ce jeu à information partielle et donc à nature probabiliste.
+
+\subsection{Tests des besoins fonctionnels}
+
+\subsubsection{Le lanceur de moteur de jeu}
+
+\begin{enumerate}
+    \item \textbf{Analyser les arguments de la ligne de commande :}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande avec des arguments valides.
+            \item L'application se lance correctement en prenant en compte les arguments.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande avec des arguments invalides.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Sélectionner le type de joueur (humain/IA) :}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :}
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif:}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--joueurs (ia 5? )+}.
+            \item L'application se lance correctement avec 5 joueurs IA.
+        \end{itemize}
+        \item \textbf{Scénario négatif:}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--joueurs (humain 16? )+}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Lancer un ensemble de parties de jeu :}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :}
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--parties 25}.
+            \item L'application se lance correctement et va exécuter 25 parties.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--parties -7}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Sélectionner la quantité d'argent de départ par joueur:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--argent 4000 500 6000}.
+            \item L'application se lance correctement avec les sommes spécifiées.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--argent 9999999 -3 6000}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Sélectionner le nombre de paquet de cartes à utiliser:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--paquets 3}.
+            \item L'application se lance et prépare 3 paquets de cartes.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--paquets 8}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Afficher les statistique d'exécution de l'ensemble des parties :} \\
+    Aucun test n'a été implémenté pour ce cas.
+
+    \item \textbf{Lire les paramètres du lanceur de moteur de jeu via un fichier:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande, un fichier JSON, un fichier HTML.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--fichier params.json}.
+            \item L'application se lance correctement et lit bien les arguments depuis le fichier JSON.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande avec l'argument \code{--fichier params.html}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Sélectionner la mise minimum:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande \code{--mise-min 20}.
+            \item L'application se lance correctement avec une mise minimale de 20 dollars.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande \code{--mise-min 3}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Sélectionner la mise maximum:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application se lance correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande \code{--mise-max 1000}.
+            \item L'application se lance correctement avec une mise maximale de 1 000 dollars.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre la commande \code{--mise-max 2}.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Afficher un récapitulatif des paramètres:}\\
+    Aucun test n'a été implémenté pour ce cas.
+
+    \item \textbf{Lancer le programme en exécution rapide:} \\
+    Aucun test n'a été implémenté pour ce cas.
+
+    \item \textbf{Permettre d'utiliser des raccourcis d'argument:}  \\
+    Aucun test n'a été implémenté pour ce cas.
+
+\end{enumerate}
+
+\subsubsection{Le moteur de jeu}
+
+\begin{enumerate}
+    \item \textbf{Appliquer les règles du Blackjack:} \\
+    Aucun test n'a été implémenté pour ce cas.
+
+    \item \textbf{Afficher l'état du jeu :} \\
+    Aucun test n'a été implémenté pour ce cas.
+
+    \item \textbf{Afficher les résultats d'une partie:} \\
+    Aucun test n'a été implémenté pour ce cas.
+
+    \item \textbf{Demander la mise d'un joueur:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :}
+        \begin{itemize}
+            \item positif: la mise proposée est acceptée. 
+            \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L'utilisateur lance l'application avec une ligne de commande.
+            \item L'application demande à l'utilisateur combien il veut miser.
+            \item L'utilisateur mise 50 dollars alors qu'il lui en reste 457.
+            \item L'application accepte la mise du joueur.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L'utilisateur lance l'application avec une ligne de commande.
+            \item L'application demande à l'utilisateur combien il veut miser.
+            \item L'utilisateur mise 50 dollars alors qu'il lui en reste 23.
+            \item Un message d'erreur apparaît.
+            \item L'application redemande à l'utilisateur.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Demander une action à un joueur}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :}
+        \begin{itemize}
+            \item positif: l'action proposée est acceptée.
+            \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L'utilisateur lance l'application avec une ligne de commande.
+            \item L'application demande au joueur quelle action il veut réaliser.
+            \item Le joueur entre une action possible.
+            \item L'application accepte l'action entrée par le joueur.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L'utilisateur lance l'application avec une ligne de commande.
+            \item L'application demande au joueur quelle action il veut réaliser.
+            \item Le joueur entre une action impossible.
+            \item Un message d'erreur apparaît.
+            \item L'application redemande une action au joueur.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Permettre à plusieurs joueurs de jouer dans une même partie:}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application exécute la partie correctement.
+            \item négatif: l'application s'arrête.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L'utilisateur lance l'application avec une ligne de commande en spécifiant 2 joueurs.
+            \item L'application gère les deux joueurs.
+            \item L'application continue de fonctionner normalement.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L'utilisateur lance l'application avec une ligne de commande en spécifiant 2 joueurs.
+            \item L'application n'arrive pas à gérer les deux joueurs.
+            \item L'application s'arrête.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Afficher les statistiques liées à un ensemble de parties :}\\
+    Aucun test n'a été implémenté pour ce cas.
+    
+\end{enumerate}
+
+\subsubsection{Le joueur humain}
+
+\begin{itemize}
+    \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+    \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: l'application s'exécute correctement. \item négatif: un message d'erreur est affiché.
+        \end{itemize}
+    \item \textbf{Scénario positif :}
+    \begin{itemize}
+        \item L'utilisateur lance l'application avec une ligne de commande.
+        \item L'application demande au joueur quelle action il veut réaliser.
+        \item Le joueur entre l'action \code{piocher}.
+        \item L'action est reconnue et l'application continue de fonctionner normalement.
+    \end{itemize}
+    \item \textbf{Scénario négatif :}
+    \begin{itemize}
+        \item L'utilisateur lance l'application avec une ligne de commande.
+        \item L'application demande au joueur quelle action il veut réaliser.
+        \item Le joueur entre l'action \code{jeter}.
+        \item L'action n'est pas reconnue et un message d'erreur apparaît.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Le joueur Intelligence Artificielle}
+
+\begin{enumerate}
+    \item \textbf{Appliquer la stratégie "Basique":} 
+    \begin{enumerate}
+        \item Renvoyer l'action "Piocher"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Piocher".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche un six de coeur et une carte cachée.
+                \item Le joueur IA pioche un dix de carreaux et un quatre de coeur.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. La probabilité de piocher une carte intéressante (d'après la stratégie) dans ce cas est de 0.082 et le seuil bas (celui que nous cherchons à atteindre) est de 0.08.
+        \end{itemize}
+
+        \item Renvoyer l'action "Doubler"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Doubler".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Plusieurs parties se déroulent et le joueur IA compte les cartes.
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche un neuf de coeur et une carte cachée.
+                \item Le joueur IA pioche un trois de carreau et un Roi de coeur.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. La probabilité de piocher une carte intéressante (d'après la stratégie) dans ce cas est de 0.61 et le seuil haut (celui que nous cherchons à atteindre) est de 0.50.
+        \end{itemize}
+
+        \item Renvoyer l'action "Se coucher"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Se coucher".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche un huit de carreau et une carte cachée.
+                \item Le joueur IA pioche un neuf de carreau et une Dame de trèfle.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. La valeur de la main est de 19 et est donc supérieure à 17, donc le joueur IA choisit bien de se coucher.
+        \end{itemize}
+    
+    \end{enumerate}
+    
+    \item \textbf{Appliquer la stratégie "Hi-Lo":} 
+    
+    \begin{enumerate}
+        \item Renvoyer l'action "Piocher"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Piocher".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche une Dame de pique et une carte cachée.
+                \item Le joueur IA pioche un trois de trèfle et un cinq de carreau.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. D'après la technique "Hi-Lo", la valeur de la main après normalisation vaut 1, donc le joueur IA pioche.
+        \end{itemize}
+
+        \item Renvoyer l'action "Se coucher"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Se coucher".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche un deux de coeur et une carte cachée.
+                \item Le joueur IA pioche un dix de trèfle et un Valet de trèfle.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. D'après la technique "Hi-Lo", la valeur de la main après normalisation vaut -1, donc le joueur IA se couche.
+        \end{itemize}
+    
+    \end{enumerate}
+    
+    \item \textbf{Appliquer la stratégie "Hi-Lo No Count":} 
+    
+    \begin{enumerate}
+        \item Renvoyer l'action "Piocher"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Piocher".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche un dix de carreau et une carte cachée.
+                \item Le joueur IA pioche un quatre de trèfle et un deux de pique.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. D'après la technique "Hi-Lo No Count", la valeur de la main après normalisation vaut 1, donc le joueur IA pioche.
+        \end{itemize}
+
+        \item Renvoyer l'action "Se coucher"
+        \begin{itemize}
+            \item \textbf{Données :} une machine de spécification minimale, l'application développée.
+            \item \textbf{Résultat attendue :} L'intelligence artificielle renvoie l'action attendue qui est "Se coucher".
+            \item \textbf{Scénario du test :}
+            \begin{itemize}
+                \item Une nouvelle partie commence.
+                \item Le croupier pioche un trois de pique et une carte cachée.
+                \item Le joueur IA pioche un Valet de coeur et un Roi de trèfle.
+                \item Le joueur IA décide d'une action.
+            \end{itemize}
+            
+            \item \textbf{Résultat concret : } Ce test est validé. D'après la technique "Hi-Lo No Count", la valeur de la main après normalisation vaut -1, donc le joueur IA se couche.
+        \end{itemize}
+    
+    \end{enumerate}
+    
+\end{enumerate}
+
+\subsection{Tests des besoins non fonctionnels}
+
+\subsubsection{Besoins Utilisateur}
+\begin{enumerate}
+    \item \textbf{L'interface du logiciel doit être en français :} 
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: le texte de l'interface est en français.
+            \item négatif: Le texte de l'interface est dans une langue autre que le français.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande.
+            \item Le programme se lance et affiche du texte en français.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande.
+            \item Le programme se lance et affiche du texte en anglais.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Le logiciel ne doit avoir accès que aux fichiers fournis et pas aux autres disponibles sur la machine :}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande, un fichier à charger.
+        \item \textbf{Résultats attendus :}
+        \begin{itemize}
+            \item positif: Un seul fichier est chargé.
+            \item négatif: Plusieurs fichiers sont chargés en même temps.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande contenant l'argument \code{--fichier}.
+            \item Le programme se lance et charge uniquement le fichier spécifié.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande contenant l'argument \code{--fichier}.
+            \item Le programme se lance et charge plusieurs fichiers présents sur la machine.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Le logiciel doit avoir une notice d'utilisation incluse :} \\
+    Aucun test n'a été implémenté pour ce cas.
+    
+    \item \textbf{Le logiciel doit avoir une version} \\
+    Aucun test n'a été implémenté pour ce cas.
+
+\end{enumerate}
+
+\subsubsection{Besoins Système}
+\begin{enumerate}
+    \item \textbf{Le logiciel doit pouvoir être éxecuté sur GNU/Linux :}
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, une machine ne correspondant pas aux spécifications minimales, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :} 
+        \begin{itemize}
+            \item positif: L'application s'exécute correctement.
+            \item négatif: Un message d'erreur apparaît. 
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal sur une machine de spécification minimale.
+            \item L’utilisateur entre une commande pour exécuter l'application.
+            \item L'application se lance correctement.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal sur une machine ne correspondant pas aux spécifications minimales.
+            \item L’utilisateur entre une commande.
+            \item Un message d'erreur apparaît.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Le logiciel doit respecter des contraintes de performance :} 
+    \begin{itemize}
+        \item \textbf{Données :} une machine de spécification minimale, l'application développée, une ligne de commande.
+        \item \textbf{Résultats attendus :}
+        \begin{itemize}
+            \item positif: L'application se lance en moins d'une seconde.
+            \item négatif: L'application se lance en plus d'une seconde.
+        \end{itemize}
+        \item \textbf{Scénario positif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande.
+            \item Le programme se lance en 0.57s.
+        \end{itemize}
+        \item \textbf{Scénario négatif :}
+        \begin{itemize}
+            \item L’utilisateur ouvre un terminal.
+            \item L’utilisateur entre une commande.
+            \item Le programme se lance en 2.14s.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\clearpage
+
+\subsection{Problèmes restants}
+Dans l'état actuel, l'application est malheureusement incomplète, en particulier pour les stratégies de l'intelligence artificielle. Elles pourraient bien sur être complétées afin d'améliorer les résultats, néanmoins nous estimons qu'elles ne considèrent pas assez de possibilités et n'exploitent pas assez les cartes comptées comme nous le souhaitions. Cependant, le moteur de jeu, ainsi que le lanceur de jeu, ne semblent pas comporter de problèmes majeurs mais peuvent néanmoins aussi être améliorés.
